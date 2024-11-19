@@ -19,16 +19,13 @@ public class securityConfig {
             HttpSecurity http
     )  throws Exception {
 
-
         // url security will be closed and will be open now
         // **** importantformula to write the code:-haap  and h(cd)^2***********
-//        h(cd)^2
+ //    h(cd)^2
         http.csrf().disable().csrf().disable();
-//        haap
+ //    haap
         http.authorizeHttpRequests().anyRequest().permitAll();
-
         return http.build();
-
 
     }
 }

@@ -1,6 +1,8 @@
 package com.airbnb.controller;
 
+
 import com.airbnb.entity.AppUser;
+import com.airbnb.payload.LoginDto;
 import com.airbnb.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +19,18 @@ public class AuthController {
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
-    @PostMapping
+    @PostMapping("/createUser")
     public ResponseEntity<AppUser> createUser(
             @RequestBody AppUser appUser
     ) {
         AppUser User = authService.createUser(appUser);
         return new ResponseEntity<>(User , HttpStatus.CREATED);
-
+    }
+    @PostMapping("/login")
+    public ResponseEntity<String>signIn(
+            @RequestBody LoginDto loginDto
+    ){
+         boolean result = authService.verifysignIn(loginDto);
+        return new ResponseEntity<>(result? "true" : "false",HttpStatus.OK);
     }
 }
