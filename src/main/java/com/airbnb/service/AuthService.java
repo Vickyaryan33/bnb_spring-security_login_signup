@@ -10,9 +10,11 @@ import java.util.Optional;
 @Service
 public class AuthService {
     private AppUserRepository appUserRepository;
+    private JWTService jwtService;
 
-    public AuthService(AppUserRepository appUserRepository) {
+    public AuthService(AppUserRepository appUserRepository , JWTService jwtService) {
         this.appUserRepository = appUserRepository;
+        this.jwtService = jwtService;
     }
 
     public AppUser createUser(AppUser appUser) {
@@ -30,16 +32,16 @@ public class AuthService {
         return appUserRepository.save(appUser);
     }
 
-    public boolean verifysignIn(LoginDto loginDto) {
+    public String verifysignIn(LoginDto loginDto) {
 //        Optional<AppUser> opuser =  appUserRepository.findByUsername(loginDto.getUsername());
 
         Optional<AppUser> opuser =  appUserRepository.findByUsernameOrEmail(loginDto.getUsername(), loginDto.getUsername());
         if(opuser.isPresent()){
             AppUser user = opuser.get();
             if(BCrypt.checkpw(loginDto.getPassword(), user.getPassword())){
-                return true;
+               return jwtService.generateToken(user);
             }
         }
-        return false;
+        return null;
     }
 }

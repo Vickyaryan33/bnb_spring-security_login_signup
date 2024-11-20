@@ -2,6 +2,7 @@ package com.airbnb.controller;
 
 
 import com.airbnb.entity.AppUser;
+import com.airbnb.payload.JWTToken;
 import com.airbnb.payload.LoginDto;
 import com.airbnb.service.AuthService;
 import org.springframework.http.HttpStatus;
@@ -27,10 +28,17 @@ public class AuthController {
         return new ResponseEntity<>(User , HttpStatus.CREATED);
     }
     @PostMapping("/login")
-    public ResponseEntity<String>signIn(
+    public ResponseEntity<?>signIn(
             @RequestBody LoginDto loginDto
     ){
-         boolean result = authService.verifysignIn(loginDto);
-        return new ResponseEntity<>(result? "true" : "false",HttpStatus.OK);
+         String token = authService.verifysignIn(loginDto);
+        JWTToken jwtToken=new JWTToken();
+       if (token != null) {
+           jwtToken.setTokenType("JWT");
+           jwtToken.setToken(token);
+           return new ResponseEntity<>(jwtToken, HttpStatus.OK);
+       }else {
+           return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
+       }
     }
 }
