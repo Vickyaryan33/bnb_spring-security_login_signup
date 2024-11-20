@@ -25,6 +25,6 @@ public class AppUser {
 
     @Column(name = "password", nullable = false, length = 1000)
     private String password;
-    //3030 lecture
+    // 15 min in 1 hour 3 min
 
 }

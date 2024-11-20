@@ -6,6 +6,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
+import org.springframework.security.web.authentication.AuthenticationFilter;
 
 @Configuration
 public class securityConfig {
@@ -13,6 +15,11 @@ public class securityConfig {
 //    public PasswordEncoder passwordEncoder() {
 //        return new BCryptPasswordEncoder();
 //    }
+    private final JWTFilter jwtFilter;
+
+    public securityConfig(JWTFilter jwtFilter) {
+        this.jwtFilter = jwtFilter;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(
@@ -24,8 +31,21 @@ public class securityConfig {
  //    h(cd)^2
         http.csrf().disable().csrf().disable();
  //    haap
-        http.authorizeHttpRequests().anyRequest().permitAll();
-        return http.build();
+      // this url open for all   http.authorizeHttpRequests().anyRequest().permitAll();
+        // JWT Filter before authorizationFilter run first
+
+        http.addFilterBefore(jwtFilter, AuthorizationFilter.class);
+        // then after filter the url
+        http.authorizeHttpRequests()
+                .requestMatchers("/api/v1/auth/**")
+                .permitAll()
+                .anyRequest().authenticated();
+
+
+            return http.build();
 
     }
+
+
+
 }

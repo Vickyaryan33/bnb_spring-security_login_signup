@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/dummy")
 public class DummyController {
-    @GetMapping
-public String getMessage(){
-    return  "hello";
-}
+    @GetMapping("/getmessage")
+    public String getMessage(){
+    return "Hello World";
+    }
 }

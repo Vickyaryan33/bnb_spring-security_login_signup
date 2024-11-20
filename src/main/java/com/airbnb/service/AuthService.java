@@ -9,12 +9,13 @@ import java.util.Optional;
 
 @Service
 public class AuthService {
-    private AppUserRepository appUserRepository;
-    private JWTService jwtService;
 
-    public AuthService(AppUserRepository appUserRepository , JWTService jwtService) {
-        this.appUserRepository = appUserRepository;
+    private JWTService jwtService;
+private AppUserRepository appUserRepository;
+    public AuthService(JWTService jwtService, AppUserRepository appUserRepository) {
+
         this.jwtService = jwtService;
+        this.appUserRepository = appUserRepository;
     }
 
     public AppUser createUser(AppUser appUser) {
@@ -40,6 +41,9 @@ public class AuthService {
             AppUser user = opuser.get();
             if(BCrypt.checkpw(loginDto.getPassword(), user.getPassword())){
                return jwtService.generateToken(user);
+
+
+
             }
         }
         return null;
