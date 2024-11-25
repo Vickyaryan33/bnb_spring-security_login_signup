@@ -1,6 +1,4 @@
 package com.airbnb.controller;
-
-
 import com.airbnb.entity.AppUser;
 import com.airbnb.payload.JWTToken;
 import com.airbnb.payload.LoginDto;
@@ -20,18 +18,41 @@ public class AuthController {
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
+
+    // signup as user
     @PostMapping("/createUser")
     public ResponseEntity<AppUser> createUser(
             @RequestBody AppUser appUser
     ) {
+        appUser.setRole("ROLE_USER");
         AppUser User = authService.createUser(appUser);
         return new ResponseEntity<>(User , HttpStatus.CREATED);
     }
+
+    // signup as owner
+    @PostMapping("/createPropertyOwner")
+    public ResponseEntity<AppUser> createPropertyOwner(
+            @RequestBody AppUser appUser
+    ) {
+        appUser.setRole("ROLE_OWNER");
+        AppUser User = authService.createUser(appUser);
+        return new ResponseEntity<>(User , HttpStatus.CREATED);
+    }
+  // managed by Manager
+    @PostMapping("/createPropertyManager")
+    public ResponseEntity<AppUser> createPropertyManager(
+            @RequestBody AppUser appUser
+    ) {
+        appUser.setRole("ROLE_MANAGER");
+        AppUser User = authService.createUser(appUser);
+        return new ResponseEntity<>(User , HttpStatus.CREATED);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?>signIn(
             @RequestBody LoginDto loginDto
     ){
-         String token = authService.verifysignIn(loginDto);
+        String token = authService.verifysignIn(loginDto);
         JWTToken jwtToken=new JWTToken();
        if (token != null) {
            jwtToken.setTokenType("JWT");
@@ -41,4 +62,9 @@ public class AuthController {
            return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
        }
     }
+
+//    @PostMapping("/createPropertyManager")
+//    public String createpropertyManager() {
+//        return "createPropertyManager";
+//    }
 }

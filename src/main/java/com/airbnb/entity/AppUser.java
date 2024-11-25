@@ -25,6 +25,8 @@ public class AppUser {
 
     @Column(name = "password", nullable = false, length = 1000)
     private String password;
-    // 15 min in 1 hour 3 min
+
+    @Column(name = "role", nullable = false)
+    private String role;
 
 }

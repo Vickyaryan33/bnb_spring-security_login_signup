@@ -30,6 +30,7 @@ private AppUserRepository appUserRepository;
         //encripted password using BCrypt
         String pass = BCrypt.hashpw(appUser.getPassword(), BCrypt.gensalt(10));
         appUser.setPassword(pass);
+
         return appUserRepository.save(appUser);
     }
 

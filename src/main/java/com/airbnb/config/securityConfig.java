@@ -30,15 +30,23 @@ public class securityConfig {
         // **** importantformula to write the code:-haap  and h(cd)^2***********
  //    h(cd)^2
         http.csrf().disable().csrf().disable();
- //    haap
-      // this url open for all   http.authorizeHttpRequests().anyRequest().permitAll();
-        // JWT Filter before authorizationFilter run first
 
+
+ //    haap
+
+
+      // this url open for all
+//         http.authorizeHttpRequests().anyRequest().permitAll();
+
+        // JWT Filter before authorizationFilter run first
         http.addFilterBefore(jwtFilter, AuthorizationFilter.class);
+
         // then after filter the url
         http.authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**")
+                .requestMatchers("/api/v1/auth/createUser","/api/v1/auth/createPropertyOwner","/api/v1/auth/login")
                 .permitAll()
+                .requestMatchers("/api/v1/auth/createPropertyOwner").hasAnyRole("OWNER","ADMIN","MANAGER")
+                .requestMatchers("/api/v1/auth/createPropertyManager").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
 
@@ -46,6 +54,5 @@ public class securityConfig {
 
     }
 
-
-
+    
 }
