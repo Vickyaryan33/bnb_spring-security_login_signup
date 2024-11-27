@@ -1,5 +1,6 @@
 package com.airbnb.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class AppUser {
     @Column(name = "username", nullable = false, unique = true, length = 55)
     private String username;
 
+    @JsonIgnore  // ignore this field in response
     @Column(name = "password", nullable = false, length = 1000)
     private String password;
 
