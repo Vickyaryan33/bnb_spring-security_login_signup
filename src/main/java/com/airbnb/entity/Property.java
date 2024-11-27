@@ -37,6 +37,4 @@ public class Property {
     @JoinColumn(name = "city_id")
     private City city;
 
-
-
 }

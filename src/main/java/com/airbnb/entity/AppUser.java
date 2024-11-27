@@ -29,6 +29,6 @@ public class AppUser {
     @Column(name = "role", nullable = false)
     private String role;
 
-    //23:45 56:38
+
 
 }

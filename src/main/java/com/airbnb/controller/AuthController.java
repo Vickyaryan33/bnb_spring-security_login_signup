@@ -63,8 +63,12 @@ public class AuthController {
        }
     }
 
+
 //    @PostMapping("/createPropertyManager")
 //    public String createpropertyManager() {
 //        return "createPropertyManager";
 //    }
+
+
+
 }
