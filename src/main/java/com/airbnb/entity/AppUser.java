@@ -31,6 +31,5 @@ public class AppUser {
     @Column(name = "role", nullable = false)
     private String role;
 
-
-
+//52:20 completed
 }
